@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.2.xsd">
+    <changeSet id="0001-4" author="mike">
+        <createTable tableName="stock_product">
+            <column name="quantity" type="INT">
+            <constraints nullable="false"/>
+        </column>
+        <column name="product_id" type="BIGINT">
+            <constraints nullable="false" primaryKey="true" primaryKeyName="pk_stockprodudct"/>
+        </column>
+        <column name="stock_id" type="BIGINT">
+            <constraints nullable="false" primaryKey="true" primaryKeyName="pk_stockprodudct"/>
+        </column>
+        </createTable>
+    </changeSet>
+</databaseChangeLog>

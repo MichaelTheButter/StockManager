@@ -1,0 +1,9 @@
+insert into stock_product (quantity, product_id, stock_id) values (0,1,1);
+insert into stock_product (quantity, product_id, stock_id) values (2,2,1);
+insert into stock_product (quantity, product_id, stock_id) values (0,3,1);
+insert into stock_product (quantity, product_id, stock_id) values (0,4,1);
+insert into stock_product (quantity, product_id, stock_id) values (0,5,1);
+insert into stock_product (quantity, product_id, stock_id) values (0,6,1);
+insert into stock_product (quantity, product_id, stock_id) values (0,7,1);
+insert into stock_product (quantity, product_id, stock_id) values (0,8,1);
+insert into stock_product (quantity, product_id, stock_id) values (1,9,1);
