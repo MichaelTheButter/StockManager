@@ -20,6 +20,6 @@ class UnitConverter implements AttributeConverter<Unit, String> {
         return Stream.of(Unit.values())
                 .filter(unit -> unit.getDescription().equals(description))
                 .findFirst()
-                .orElseThrow(IllegalArgumentException::new);
+                .orElse(null);
     }
 }
