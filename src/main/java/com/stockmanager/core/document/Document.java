@@ -1,8 +1,13 @@
 package com.stockmanager.core.document;
 
+import com.stockmanager.core.documentProduct.DocumentProduct;
+import com.stockmanager.core.stock.Stock;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+
+import java.util.Date;
+import java.util.List;
 
 @Entity
 @Getter
@@ -13,5 +18,13 @@ public class Document {
     private Long id;
     @Enumerated(EnumType.STRING)
     private DocumentType documentType;
-
+    private Date createDate;
+    private int number;
+    private String name;
+    @ManyToOne
+    @JoinColumn(name = "stock_id")
+    private Stock stock;
+    @OneToMany
+    @JoinColumn(name = "document_id")
+    private List<DocumentProduct> products;
 }

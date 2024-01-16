@@ -1,5 +1,6 @@
 package com.stockmanager.core.product;
 
+import com.stockmanager.core.documentProduct.DocumentProduct;
 import com.stockmanager.core.product.unit.Unit;
 import com.stockmanager.core.stockProduct.StockProduct;
 import jakarta.persistence.*;
@@ -22,5 +23,8 @@ public class Product {
     @OneToMany
     @JoinColumn(name = "product_id")
     private List<StockProduct> stocks;
+    @OneToMany
+    @JoinColumn(name = "product_id")
+    private List<DocumentProduct> documents;
 
 }

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.2.xsd">
+    <changeSet id="0007-1" author="mike">
+        <addUniqueConstraint columnNames="product_id, document_id" constraintName="uc_product_document_id"
+                             tableName="document_product"/>
+        <addForeignKeyConstraint baseColumnNames="document_id" baseTableName="document_product"
+                                 constraintName="FK_DOCUMENTPRODUCT_ON_DOCUMENT" referencedColumnNames="id"
+                                 referencedTableName="document"/>
+        <addForeignKeyConstraint baseColumnNames="product_id" baseTableName="document_product"
+                                 constraintName="FK_DOCUMENTPRODUCT_ON_PRODUCT" referencedColumnNames="id"
+                                 referencedTableName="product"/>
+    </changeSet>
+
+</databaseChangeLog>

@@ -1,5 +1,14 @@
 package com.stockmanager.core.document;
 
 public enum DocumentType {
-    GOODS_RECEIVED, DISPATCH_NOTE;
+    GOODS_RECEIVED("GR"), DISPATCH_NOTE("DN"), INVENTORY("INV");
+
+    private String acronym;
+    DocumentType(String acronym) {
+        this.acronym = acronym;
+    }
+
+    public String getAcronym() {
+        return acronym;
+    }
 }

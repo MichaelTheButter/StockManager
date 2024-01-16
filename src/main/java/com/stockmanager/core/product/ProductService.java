@@ -25,7 +25,9 @@ public class ProductService {
 
 
 
-    public ProductService(ProductRepository productRepository, StockProductRepository stockProductRepository, StockProductDtoMapper stockProductDtoMapper) {
+    public ProductService(ProductRepository productRepository,
+                          StockProductRepository stockProductRepository,
+                          StockProductDtoMapper stockProductDtoMapper) {
         this.productRepository = productRepository;
         this.stockProductRepository = stockProductRepository;
         this.stockProductDtoMapper = stockProductDtoMapper;
