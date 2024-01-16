@@ -6,7 +6,7 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.List;
 
 @Entity
@@ -18,7 +18,7 @@ public class Document {
     private Long id;
     @Enumerated(EnumType.STRING)
     private DocumentType documentType;
-    private Date createDate;
+    private LocalDate createDate;
     private int number;
     private String name;
     @ManyToOne
