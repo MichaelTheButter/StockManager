@@ -1,6 +1,9 @@
 package com.stockmanager.core.document;
 
+import com.stockmanager.core.document.dto.DocumentDto;
 import com.stockmanager.core.document.dto.DocumentRequestDto;
+import com.stockmanager.core.document.naming.DefaultNaming;
+import com.stockmanager.core.document.naming.NamingStrategy;
 import com.stockmanager.core.document.numbering.NumberingStrategy;
 import com.stockmanager.core.document.numbering.YearNumbering;
 import com.stockmanager.core.stock.Stock;
@@ -18,6 +21,9 @@ public class DocumentMapper {
     @Getter
     @Setter
     private NumberingStrategy numbering = new YearNumbering();
+    @Getter
+    @Setter
+    private NamingStrategy naming = new DefaultNaming();
 
 
     public DocumentMapper(StockRepository stockRepository, DocumentRepository documentRepository) {
@@ -28,13 +34,27 @@ public class DocumentMapper {
     Document map(DocumentRequestDto documentDto) {
         Document document = new Document();
         document.setDocumentType(documentDto.getDocumentType());
-        document.setProducts(documentDto.getProducts());
         document.setStock(getStock(documentDto));
         document.setCreateDate(LocalDate.now());
         int number = numbering.createNumber(documentRepository, documentDto);
         document.setNumber(number);
-
+        String name = naming.createName(document);
+        document.setName(name);
+        document.setProducts(documentDto.getProducts());
         return document;
+    }
+
+    DocumentDto map(Document document) {
+        return DocumentDto.builder()
+                .id(document.getId())
+                .documentType(document.getDocumentType())
+                .createDate(document.getCreateDate())
+                .number(document.getNumber())
+                .name(document.getName())
+                .stockId(document.getStock().getId())
+                .products(document.getProducts())
+                .build();
+
     }
 
     private Stock getStock(DocumentRequestDto documentDto) {
