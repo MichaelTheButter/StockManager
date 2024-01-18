@@ -1,5 +1,6 @@
 package com.stockmanager.core.stockProduct;
 
+import com.stockmanager.core.documentProduct.DocumentProduct;
 import com.stockmanager.core.product.Product;
 import com.stockmanager.core.product.ProductRepository;
 import com.stockmanager.core.stock.Stock;
@@ -42,5 +43,15 @@ public class StockProductDtoMapper {
                 .stockName(stockName)
                 .build();
     }
+
+    public static StockProduct map(DocumentProduct documentProduct, Long stockId) {
+        StockProduct productToUpdate = new StockProduct();
+        productToUpdate.setId(
+                new StockProductId(documentProduct.getProductId(), stockId)
+        );
+        productToUpdate.setQuantity(documentProduct.getQuantity());
+        return productToUpdate;
+    }
+
 }
 
