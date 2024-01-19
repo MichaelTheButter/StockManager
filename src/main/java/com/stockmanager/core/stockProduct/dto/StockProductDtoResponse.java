@@ -7,7 +7,7 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class StockProductDtoExtensive {
+public class StockProductDtoResponse {
     private Long productId;
     private Long stockId;
     private int quantity;

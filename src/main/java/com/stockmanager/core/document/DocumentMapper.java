@@ -7,7 +7,8 @@ import com.stockmanager.core.document.naming.NamingStrategy;
 import com.stockmanager.core.document.numbering.NumberingStrategy;
 import com.stockmanager.core.document.numbering.YearNumbering;
 import com.stockmanager.core.stock.Stock;
-import com.stockmanager.core.stock.StockRepository;
+import com.stockmanager.core.stock.StockDtoMapper;
+import com.stockmanager.core.stock.StockService;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.stereotype.Service;
@@ -16,7 +17,7 @@ import java.time.LocalDate;
 
 @Service
 public class DocumentMapper {
-    private final StockRepository stockRepository;
+    private final StockService stockService;
     private final DocumentRepository documentRepository;
     @Getter
     @Setter
@@ -26,8 +27,8 @@ public class DocumentMapper {
     private NamingStrategy naming = new DefaultNaming();
 
 
-    public DocumentMapper(StockRepository stockRepository, DocumentRepository documentRepository) {
-        this.stockRepository = stockRepository;
+    public DocumentMapper(StockService stockService, DocumentRepository documentRepository) {
+        this.stockService = stockService;
         this.documentRepository = documentRepository;
     }
 
@@ -58,7 +59,8 @@ public class DocumentMapper {
     }
 
     private Stock getStock(DocumentRequestDto documentDto) {
-        return stockRepository.findById(documentDto.getStockId())
-                .orElseThrow(IllegalArgumentException::new);
+        return stockService.findByID(documentDto.getStockId())
+                .map(StockDtoMapper::map)
+                .orElseThrow();
     }
 }

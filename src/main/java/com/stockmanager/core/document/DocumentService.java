@@ -3,9 +3,9 @@ package com.stockmanager.core.document;
 import com.stockmanager.core.document.dto.DocumentDto;
 import com.stockmanager.core.document.dto.DocumentRequestDto;
 import com.stockmanager.core.documentProduct.DocumentProduct;
-import com.stockmanager.core.documentProduct.DocumentProductRepository;
+import com.stockmanager.core.documentProduct.DocumentProductService;
 import com.stockmanager.core.stockProduct.StockProductDtoMapper;
-import com.stockmanager.core.stockProduct.StockProductRepository;
+import com.stockmanager.core.stockProduct.StockProductService;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
@@ -13,19 +13,18 @@ import org.springframework.stereotype.Service;
 public class DocumentService {
     private final DocumentRepository documentRepository;
     private final DocumentMapper documentMapper;
-    private final DocumentProductRepository documentProductRepository;
-    private final StockProductRepository stockProductRepository;
+    private final DocumentProductService documentProductService;
+    private final StockProductService stockProductService;
 
-    public DocumentService(
-            DocumentRepository documentRepository,
-            DocumentMapper documentMapper,
-            DocumentProductRepository documentProductRepository,
-            StockProductRepository stockProductRepository
+    public DocumentService(DocumentRepository documentRepository,
+                           DocumentMapper documentMapper,
+                           DocumentProductService documentProductService,
+                           StockProductService stockProductService
     ) {
         this.documentRepository = documentRepository;
         this.documentMapper = documentMapper;
-        this.documentProductRepository = documentProductRepository;
-        this.stockProductRepository = stockProductRepository;
+        this.documentProductService = documentProductService;
+        this.stockProductService = stockProductService;
     }
 
     @Transactional
@@ -36,8 +35,8 @@ public class DocumentService {
         Long stockId = savedDocument.getStock().getId();
         for(DocumentProduct product : savedDocument.getProducts()) {
             product.setDocumentId(documentId);
-            documentProductRepository.save(product);
-            stockProductRepository.save(
+            documentProductService.save(product);
+            stockProductService.save(
                     StockProductDtoMapper.map(product, stockId)
             );
         }

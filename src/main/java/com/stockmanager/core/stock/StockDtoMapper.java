@@ -2,11 +2,12 @@ package com.stockmanager.core.stock;
 
 import com.stockmanager.core.stock.dto.StockDto;
 
-class StockDtoMapper {
+public class StockDtoMapper {
 
-    static Stock map(StockDto stockDto) {
+    public static Stock map(StockDto stockDto) {
         Stock stock = new Stock();
         stock.setName(stockDto.getName());
+        if (stockDto.getId() != null) stock.setId(stockDto.getId());
         return stock;
     }
 
