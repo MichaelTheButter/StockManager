@@ -61,6 +61,6 @@ public class DocumentMapper {
     private Stock getStock(DocumentRequestDto documentDto) {
         return stockService.findByID(documentDto.getStockId())
                 .map(StockDtoMapper::map)
-                .orElseThrow();
+                .get();
     }
 }
