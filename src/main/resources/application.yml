@@ -2,3 +2,5 @@ spring:
   jpa:
     hibernate:
       ddl-auto: validate
+jws:
+  sharedKey: wsc7e4lk-a23a-4vdb-brgc-33d4g0c58261
