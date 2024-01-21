@@ -12,13 +12,12 @@ Authorisation is based on Spring security and JWT Tokens.
 
 ## Endpoints
 
-+----------------+--------+-----------+--------------+--------------------------------+---------------+
+
 |    Endpoint    | Method |  Request  |   Response   |            Function            | Authorization |
-+----------------+--------+-----------+--------------+--------------------------------+---------------+
+|    --------    |-------- |--------  |--------   |            --------            |-------- |
 | /auth          | POST   | JSON BODY | Bearer Token | authenticate user              | -             |
 | /api/products  | POST   | JSON BODY | JSON BODY    | add new product                | user, admin   |
 | /api/products  | GET    | -         | JSON BODY    | get all products in main stock | -             |
 | /api/stock     | POST   | JSON BODY | JSON BODY    | add new stock                  | admin         |
 | /api/documents | POST   | JSON BODY | JSON BODY    | add new document               | user,admin    |
-+----------------+--------+-----------+--------------+--------------------------------+---------------+
-
+---------------------------------------------------------------------------------------------
