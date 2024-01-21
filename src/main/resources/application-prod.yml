@@ -2,9 +2,10 @@ spring:
   datasource:
     url: jdbc:mysql://localhost:3306/stockman
     username: root
-    password: maselko-sql
+    password: root
   liquibase:
     contexts: prod
+    change-log: classpath:db/changelog/master.xml
 
 jws:
   sharedKey: wsc7e4lk-a23a-4vdb-brgc-33d4g0c58261
