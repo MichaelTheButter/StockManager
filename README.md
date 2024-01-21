@@ -21,3 +21,7 @@ Authorisation is based on Spring security and JWT Tokens.
 | /api/stock     | POST   | JSON BODY | JSON BODY    | add new stock                  | admin         |
 | /api/documents | POST   | JSON BODY | JSON BODY    | add new document               | user,admin    |
 ---------------------------------------------------------------------------------------------
+
+## To use
+Clone this repo
+Run StockManagerApplication.java
