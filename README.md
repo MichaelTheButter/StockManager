@@ -8,7 +8,7 @@ Distinct document type has distinct impact on product quantity in a particular s
 Authorisation is based on Spring security and JWT Tokens.
 
 ## Architecture
-![](ProductRoadmaps.jpg)
+![](architecture.jpg)
 
 ## Endpoints
 
