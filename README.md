@@ -11,6 +11,7 @@ Authorisation is based on Spring security and JWT Tokens.
 ![](ProductRoadmaps.jpg)
 
 ## Endpoints
+
 +----------------+--------+-----------+--------------+--------------------------------+---------------+
 |    Endpoint    | Method |  Request  |   Response   |            Function            | Authorization |
 +----------------+--------+-----------+--------------+--------------------------------+---------------+
