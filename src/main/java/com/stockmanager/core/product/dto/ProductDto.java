@@ -9,6 +9,7 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 public class ProductDto {
+    private Long id;
     private String name;
     private Unit unit;
 }

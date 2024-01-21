@@ -16,7 +16,7 @@ public class Document {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Enumerated(EnumType.STRING)
+    @Column(columnDefinition = "VARCHAR(100)")
     private DocumentType documentType;
     private LocalDate createDate;
     private int number;

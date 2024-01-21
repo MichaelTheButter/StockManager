@@ -14,6 +14,13 @@
     <include file="007_add_document_product_constraints.xml" relativeToChangelogFile="true" />
     <include file="008_create_table_users_and_roles.xml" relativeToChangelogFile="true" />
 
+    <!-- MAIN STOCK -->
+    <include file="../initialData/008_main_stock_prod.sql" relativeToChangelogFile="true" context="prod"/>
+    <!-- SAMPLE USERS -->
+    <include file="../initialData/005_users_and_roles_prod.sql" relativeToChangelogFile="true" context="prod"/>
+    <include file="../initialData/006_users_and_roles_prod.sql" relativeToChangelogFile="true" context="prod"/>
+    <include file="../initialData/007_users_and_roles_prod.sql" relativeToChangelogFile="true" context="prod"/>
+
 
     <!-- TEST DATA -->
     <include file="../testdata/001_products.sql" relativeToChangelogFile="true" context="dev"/>

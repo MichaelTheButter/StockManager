@@ -8,9 +8,9 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.access.intercept.AuthorizationFilter;
 import org.springframework.security.web.servlet.util.matcher.MvcRequestMatcher;
 import org.springframework.web.servlet.handler.HandlerMappingIntrospector;
-import org.springframework.security.web.access.intercept.AuthorizationFilter;
 
 @Configuration
 public class SecurityConfig {
@@ -42,6 +42,7 @@ public class SecurityConfig {
         http.csrf(csrfCustomizer -> csrfCustomizer.disable());
         http.addFilterBefore(jwtAuthenticationFilter, AuthorizationFilter.class);
         http.addFilterBefore(bearerTokenFilter, AuthorizationFilter.class);
+        http.headers().frameOptions().sameOrigin();
         return http.build();
     }
 }

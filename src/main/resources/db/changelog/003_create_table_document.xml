@@ -19,6 +19,6 @@
         </createTable>
     </changeSet>
     <changeSet id="0003-2" author="mike">
-        <addNotNullConstraint columnName="number" tableName="document"/>
+        <addNotNullConstraint columnName="number" tableName="document" columnDataType="INT"/>
     </changeSet>
 </databaseChangeLog>

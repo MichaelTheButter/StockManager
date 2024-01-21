@@ -31,10 +31,10 @@ public class StockProductDtoMapper {
         Long stockId = stockProduct.getId().getStockId();
         String productName =  productService.findById(productId)
                 .map(ProductDto::getName)
-                .toString();
+                .get();
         String stockName = stockService.findByID(stockId)
                 .map(StockDto::getName)
-                .toString();
+                .get();
         return StockProductDtoResponse.builder()
                 .productId(productId)
                 .stockId(stockId)
