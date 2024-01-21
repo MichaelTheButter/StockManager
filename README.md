@@ -20,7 +20,9 @@ Authorisation is based on Spring security and JWT Bearer Tokens.
 
 ## To use
 Clone this repo
+
 Run StockManagerApplication.java
-to authenticate:
+
+first authorization:
 username: admin
 password: adminpass
