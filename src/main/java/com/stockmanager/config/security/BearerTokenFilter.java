@@ -24,8 +24,7 @@ public class BearerTokenFilter extends HttpFilter {
     private final Logger logger = LoggerFactory.getLogger(BearerTokenFilter.class);
     private static final String AUTHORIZATION_HEADER = "Authorization";
     private static final String BEARER_PREFIX = "Bearer ";
-    private final SecurityContextHolderStrategy securityContextHolderStrategy =
-            SecurityContextHolder.getContextHolderStrategy();
+    private final SecurityContextHolderStrategy securityContextHolderStrategy = SecurityContextHolder.getContextHolderStrategy();
     private final AuthenticationFailureHandler failureHandler = new SimpleUrlAuthenticationFailureHandler();
     private final JwtService jwtService;
 
