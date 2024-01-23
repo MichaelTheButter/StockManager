@@ -51,7 +51,6 @@ public class JwtAuthenticationFilter extends HttpFilter {
 
     private Authentication attemptAuthentication(HttpServletRequest request) throws IOException, AuthenticationException {
         JwtAuthenticationToken jwtAuthentication = new ObjectMapper().readValue(request.getInputStream(), JwtAuthenticationToken.class);
-        logger.debug("Authenticating %s with password %s".formatted(jwtAuthentication.userName(), jwtAuthentication.password()));
         UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(jwtAuthentication.userName(), jwtAuthentication.password());
         return authenticatorManager.authenticate(usernamePasswordAuthenticationToken);
     }
