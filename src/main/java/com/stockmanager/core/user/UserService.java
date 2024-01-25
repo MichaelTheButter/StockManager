@@ -17,4 +17,5 @@ public class UserService {
         return userRepository.findByUserName(userName)
                 .map(UserCredentialsDtoMapper::map);
     }
+
 }

@@ -7,9 +7,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.Optional;
 
 @Controller
 @RequestMapping("/api/documents")
@@ -27,5 +27,12 @@ public class DocumentController {
         DocumentDto documentDto = documentService.save(requestDto);
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(documentDto);
+    }
+
+    @GetMapping("/{id}")
+    ResponseEntity<DocumentDto> showDocument(@PathVariable Long id) {
+        Optional<DocumentDto> document = documentService.findById(id);
+        return document.map(ResponseEntity::ok)
+                .orElseGet(() -> ResponseEntity.notFound().build());
     }
 }

@@ -1,8 +1,8 @@
 package com.stockmanager.core.stockProduct;
 
 
-import org.springframework.stereotype.Repository;
 import org.springframework.data.repository.CrudRepository;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 

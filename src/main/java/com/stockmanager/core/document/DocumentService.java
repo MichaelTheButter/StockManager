@@ -9,6 +9,8 @@ import com.stockmanager.core.stockProduct.StockProductService;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 public class DocumentService {
     private final DocumentRepository documentRepository;
@@ -41,5 +43,10 @@ public class DocumentService {
             );
         }
         return documentMapper.map(savedDocument);
+    }
+
+    public Optional<DocumentDto> findById(Long id) {
+        return documentRepository.findById(id)
+                .map(documentMapper::map);
     }
 }

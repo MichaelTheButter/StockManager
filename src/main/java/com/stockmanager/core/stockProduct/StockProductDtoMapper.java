@@ -19,14 +19,14 @@ public class StockProductDtoMapper {
         this.stockService = stockService;
     }
 
-    StockProduct map(StockProductDto stockProductDto) {
+    StockProduct mapToEntity(StockProductDto stockProductDto) {
         StockProduct stockProduct = new StockProduct();
         stockProduct.setId(new StockProductId(stockProductDto.getProductId(), stockProductDto.getStockId()));
         stockProduct.setQuantity(stockProductDto.getQuantity());
         return stockProduct;
     }
 
-    StockProductDtoResponse map(StockProduct stockProduct) {
+    StockProductDtoResponse mapToDto(StockProduct stockProduct) {
         Long productId = stockProduct.getId().getProductId();
         Long stockId = stockProduct.getId().getStockId();
         String productName =  productService.findById(productId)

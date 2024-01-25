@@ -18,15 +18,16 @@ public class StockProductService {
     }
 
     public StockProductDtoResponse save(StockProductDto stockProductDto) {
-        StockProduct stockProduct = stockProductDtoMapper.map(stockProductDto);
+        StockProduct stockProduct = stockProductDtoMapper.mapToEntity(stockProductDto);
         StockProduct savedStockProduct = stockProductRepository.save(stockProduct);
-        return stockProductDtoMapper.map(savedStockProduct);
+        return stockProductDtoMapper.mapToDto(savedStockProduct);
 
     }
 
     public List<StockProductDtoResponse> getStockProducts(Long stockId) {
-        return stockProductRepository.findAllById_StockId(stockId).stream()
-                .map(stockProductDtoMapper::map)
+        return stockProductRepository.findAllById_StockId(stockId)
+                .stream()
+                .map(stockProductDtoMapper::mapToDto)
                 .collect(Collectors.toList());
     }
 }
