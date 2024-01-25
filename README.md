@@ -14,14 +14,17 @@ Authorisation is based on Spring security and JWT Bearer Tokens.
 | /auth          | POST   | JSON BODY | Bearer Token | authenticate user              | -             |
 | /api/products  | POST   | JSON BODY | JSON BODY    | add new product                | user, admin   |
 | /api/products  | GET    | -         | JSON BODY    | get all products in main stock | -             |
+| /api/products/{id}  | GET    | -         | JSON BODY    | get product by id |        -     |
+| /api/products/{id}/stock  | GET    | -         | JSON BODY    | get all products in stock with given id | - |      
 | /api/stock     | POST   | JSON BODY | JSON BODY    | add new stock                  | admin         |
 | /api/documents | POST   | JSON BODY | JSON BODY    | add new document               | user,admin    |
+/api/documents/{id} | GET   | - | JSON BODY    | get document by id               | -    |
 ---------------------------------------------------------------------------------------------
 
 ## To use
 Clone this repo
 
-Run StockManagerApplication.java
+Run StockManagerApplication.java // it's still on developer stage, if you want to try it, run it on dev profile.
 
 first authorization:
 username: admin
