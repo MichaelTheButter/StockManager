@@ -9,6 +9,7 @@ import lombok.Setter;
 @Setter
 @Entity
 public class StockProduct {
+
     @EmbeddedId
     private StockProductId id;
     private int quantity;
