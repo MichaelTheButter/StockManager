@@ -2,11 +2,14 @@ package com.stockmanager.config.security;
 
 import com.stockmanager.core.user.UserService;
 import com.stockmanager.core.user.dto.UserCredentialsDto;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class CustomUserDetailsService implements UserDetailsService{
@@ -22,10 +25,10 @@ public class CustomUserDetailsService implements UserDetailsService{
     }
 
     private UserDetails createUserDetails(UserCredentialsDto credentials) {
-        return User.builder()
-                .username(credentials.getUserName())
-                .password(credentials.getPassword())
-                .roles(credentials.getRoles().toArray(String[]::new))
-                .build();
+        return new User(
+                credentials.getUserName(),
+                credentials.getPassword(),
+                List.of(new SimpleGrantedAuthority(credentials.getRole().toString()))
+        );
     }
 }

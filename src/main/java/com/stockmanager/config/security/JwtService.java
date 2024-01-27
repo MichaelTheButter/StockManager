@@ -1,97 +1,67 @@
 package com.stockmanager.config.security;
 
-import com.nimbusds.jose.*;
-import com.nimbusds.jose.crypto.MACSigner;
-import com.nimbusds.jose.crypto.MACVerifier;
-import com.nimbusds.jwt.JWTClaimsSet;
-import com.nimbusds.jwt.SignedJWT;
+import com.auth0.jwt.JWT;
+import com.auth0.jwt.algorithms.Algorithm;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.security.core.Authentication;
-import org.springframework.stereotype.Service;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.stereotype.Service;
 
-import java.text.ParseException;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 
 @Service
 public class JwtService {
-    private static final int EXP_TIME_SEC = 60 * 60;
-    private final JWSAlgorithm jwsAlgorithm = JWSAlgorithm.HS256;
-    private final JWSSigner signer;
-    private final JWSVerifier verifier;
 
-    public JwtService(@Value("${jws.sharedKey}") String sharedKey) {
-        try {
-            signer = new MACSigner(sharedKey.getBytes());
-            verifier = new MACVerifier(sharedKey.getBytes());
-        } catch (JOSEException e) {
-            throw new RuntimeException(e);
-        }
+    private static final int EXP_TIME_SEC = 60 * 60;
+    private final Algorithm algorithm;
+    private final AuthenticationManager authenticationManager;
+    private final CustomUserDetailsService userDetailsService;
+
+    public JwtService(@Value("${jws.sharedKey}") String sharedKey,
+                      AuthenticationManager authenticationManager,
+                      CustomUserDetailsService userDetailsService
+    ) {
+        this.authenticationManager = authenticationManager;
+        this.algorithm = Algorithm.HMAC256(sharedKey);
+        this.userDetailsService = userDetailsService;
     }
 
     String createSignedJWT(String username, List<String> authorities) {
-        JWSHeader header = new JWSHeader(jwsAlgorithm);
         LocalDateTime nowPlus1Hour = LocalDateTime.now().plusSeconds(EXP_TIME_SEC);
         Date expirationDate = Date.from(nowPlus1Hour
-                .atZone(ZoneId.systemDefault()                )
+                .atZone(ZoneId.systemDefault())
                 .toInstant());
-        JWTClaimsSet claimsSet = new JWTClaimsSet.Builder()
-                .subject(username)
-                .expirationTime(expirationDate)
-                .claim("authorities", authorities)
-                .build();
-        SignedJWT signedJWT = new SignedJWT(header, claimsSet);
-        try {
-            signedJWT.sign(signer);
-        } catch (JOSEException e) {
-            throw new RuntimeException(e);
-        }
-        return signedJWT.serialize();
+        return JWT.create()
+                .withSubject(username)
+                .withIssuedAt(LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant())
+                .withExpiresAt(expirationDate)
+                .withClaim("authorities", authorities)
+                .sign(algorithm);
+
     }
 
-    void verifySignature(SignedJWT signedJWT) {
-        try {
-            boolean verified = signedJWT.verify(verifier);
-            if (!verified) {
-                throw new JwtAuthenticationException("JWT verification failed for token %s".formatted(signedJWT.serialize()));
-            }
-        } catch (JOSEException e) {
-            throw new JwtAuthenticationException("JWT verification failed for token %s".formatted(signedJWT.serialize()));
-        }
+
+    public JWTResponse createAuthentication(LoginRequestDto loginRequest) {
+        Authentication authenticate = authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(loginRequest.userName, loginRequest.password)
+        );
+        Collection<? extends GrantedAuthority> authorities = userDetailsService.loadUserByUsername(loginRequest.userName).getAuthorities();
+        List<String> auth = authorities.stream()
+                .map(Object::toString)
+                .toList();
+        User user = (User) authenticate.getPrincipal();
+        String userName = user.getUsername();
+        String token = createSignedJWT(userName, auth);
+        return new JWTResponse(token);
     }
 
-    void verifyExpirationTime(SignedJWT signedJWT) {
-        try {
-            JWTClaimsSet jwtClaimsSet = signedJWT.getJWTClaimsSet();
-            LocalDateTime expirationDateTime = jwtClaimsSet
-                    .getDateClaim("exp")
-                    .toInstant()
-                    .atZone(ZoneId.systemDefault())
-                    .toLocalDateTime();
-            if (LocalDateTime.now().isAfter(expirationDateTime)) {
-                throw new JwtAuthenticationException("Token Expired at %s".formatted(expirationDateTime));
-            }
-        }catch (ParseException e) {
-            throw new JwtAuthenticationException("Token does not have exp claim");
-        }
-    }
-
-    Authentication createAuthentication(SignedJWT signedJWT) {
-        String subject;
-        List<String> authorities;
-        try {
-            JWTClaimsSet jwtClaimsSet = signedJWT.getJWTClaimsSet();
-            subject = jwtClaimsSet.getSubject();
-            authorities = jwtClaimsSet.getStringListClaim("authorities");
-        } catch (ParseException e) {
-            throw new JwtAuthenticationException("Missing claims sub or authorities");
-        }
-        List<SimpleGrantedAuthority> grantedAuthorities = authorities.stream()
-                .map(SimpleGrantedAuthority::new).toList();
-        return new UsernamePasswordAuthenticationToken(subject, null, grantedAuthorities);
-    }
+    public record JWTResponse(String token) {}
+    public record LoginRequestDto(String userName, String password) {}
 }

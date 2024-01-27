@@ -1,16 +1,14 @@
 package com.stockmanager.core.user.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.Setter;
+import com.stockmanager.core.user.userrole.UserRole;
+import lombok.Builder;
+import lombok.Data;
 
-import java.util.Set;
+@Data
+@Builder
 
-@Getter
-@Setter
-@AllArgsConstructor
 public class UserCredentialsDto {
     private String userName;
     private String password;
-    private Set<String> roles;
+    private UserRole role;
 }
