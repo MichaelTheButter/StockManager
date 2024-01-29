@@ -27,8 +27,8 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http,
-                                           MvcRequestMatcher.Builder mvc) throws Exception {
-        BearerTokenFilter bearerTokenFilter = new BearerTokenFilter();
+                                           MvcRequestMatcher.Builder mvc,
+                                           BearerTokenFilter bearerTokenFilter) throws Exception {
         http.authorizeHttpRequests(requests -> requests
                 .requestMatchers(mvc.pattern(HttpMethod.POST, "/api/stocks")).hasRole("ADMIN")
                 .requestMatchers(mvc.pattern(HttpMethod.POST, "/api/products")).hasAnyRole("USER","ADMIN")

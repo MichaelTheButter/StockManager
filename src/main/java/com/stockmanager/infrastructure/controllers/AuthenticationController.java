@@ -1,6 +1,8 @@
 package com.stockmanager.infrastructure.controllers;
 
 import com.stockmanager.config.security.JwtService;
+import com.stockmanager.config.security.dto.JwtResponse;
+import com.stockmanager.config.security.dto.LoginRequestDto;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -15,8 +17,8 @@ public class AuthenticationController {
     }
 
     @PostMapping("/auth")
-    public ResponseEntity<JwtService.JWTResponse> authenticateAndCreateToken(@RequestBody JwtService.LoginRequestDto loginRequestDto) {
-        JwtService.JWTResponse jwtResponse = jwtService.createAuthentication(loginRequestDto);
+    public ResponseEntity<JwtResponse> authenticateAndCreateToken(@RequestBody LoginRequestDto loginRequestDto) {
+        JwtResponse jwtResponse = jwtService.createAuthentication(loginRequestDto);
         return ResponseEntity.ok().body(jwtResponse);
     }
 

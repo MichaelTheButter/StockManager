@@ -2,7 +2,8 @@ package com.stockmanager.config.security;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
-import org.springframework.beans.factory.annotation.Value;
+import com.stockmanager.config.security.dto.JwtResponse;
+import com.stockmanager.config.security.dto.LoginRequestDto;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -19,49 +20,61 @@ import java.util.List;
 @Service
 public class JwtService {
 
-    private static final int EXP_TIME_SEC = 60 * 60;
+    private final JwsProperties jwsProperties;
     private final Algorithm algorithm;
     private final AuthenticationManager authenticationManager;
     private final CustomUserDetailsService userDetailsService;
 
-    public JwtService(@Value("${jws.sharedKey}") String sharedKey,
+    public JwtService(JwsProperties jwsProperties,
                       AuthenticationManager authenticationManager,
                       CustomUserDetailsService userDetailsService
     ) {
         this.authenticationManager = authenticationManager;
-        this.algorithm = Algorithm.HMAC256(sharedKey);
         this.userDetailsService = userDetailsService;
+        this.jwsProperties = jwsProperties;
+        this.algorithm = Algorithm.HMAC256(jwsProperties.sharedKey());
     }
 
-    String createSignedJWT(String username, List<String> authorities) {
-        LocalDateTime nowPlus1Hour = LocalDateTime.now().plusSeconds(EXP_TIME_SEC);
-        Date expirationDate = Date.from(nowPlus1Hour
-                .atZone(ZoneId.systemDefault())
-                .toInstant());
+    public JwtResponse createAuthentication(LoginRequestDto loginRequest) {
+        Authentication authenticate = authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(loginRequest.userName(), loginRequest.password())
+        );
+        List<String> auth = findAuthoritiesByUserName(loginRequest.userName());
+        User user = (User) authenticate.getPrincipal();
+        String userName = user.getUsername();
+        String token = createSignedJWT(userName, auth);
+        return new JwtResponse(token);
+    }
+
+    private List<String> findAuthoritiesByUserName(String userName) {
+        Collection<? extends GrantedAuthority> authorities = userDetailsService.loadUserByUsername(userName).getAuthorities();
+        return authorities.stream()
+                .map(Object::toString)
+                .toList();
+    }
+
+
+    private String createSignedJWT(String username, List<String> authorities) {
+        TokenClock clock = new TokenClock();
         return JWT.create()
                 .withSubject(username)
-                .withIssuedAt(LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant())
-                .withExpiresAt(expirationDate)
+                .withIssuedAt(clock.now)
+                .withExpiresAt(clock.expTime)
                 .withClaim("authorities", authorities)
                 .sign(algorithm);
 
     }
-
-
-    public JWTResponse createAuthentication(LoginRequestDto loginRequest) {
-        Authentication authenticate = authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(loginRequest.userName, loginRequest.password)
-        );
-        Collection<? extends GrantedAuthority> authorities = userDetailsService.loadUserByUsername(loginRequest.userName).getAuthorities();
-        List<String> auth = authorities.stream()
-                .map(Object::toString)
-                .toList();
-        User user = (User) authenticate.getPrincipal();
-        String userName = user.getUsername();
-        String token = createSignedJWT(userName, auth);
-        return new JWTResponse(token);
+    private class TokenClock {
+        private Date now;
+        private Date expTime;
+        TokenClock () {
+            this.now = Date.from(LocalDateTime.now()
+                    .atZone(ZoneId.systemDefault())
+                    .toInstant());
+            LocalDateTime nowPlusExpTime = LocalDateTime.now()
+                    .plusSeconds(jwsProperties.expirationSecond());
+            this.expTime = Date.from(nowPlusExpTime.atZone(ZoneId.systemDefault()).toInstant());
+        }
     }
 
-    public record JWTResponse(String token) {}
-    public record LoginRequestDto(String userName, String password) {}
 }
