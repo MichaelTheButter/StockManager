@@ -35,14 +35,14 @@ public class JwtService {
         this.algorithm = Algorithm.HMAC256(jwsProperties.sharedKey());
     }
 
-    public JwtResponse createAuthentication(LoginRequestDto loginRequest) {
+    public JwtResponse createAuthenticationToken(LoginRequestDto loginRequest) {
         Authentication authenticate = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(loginRequest.userName(), loginRequest.password())
         );
-        List<String> auth = findAuthoritiesByUserName(loginRequest.userName());
-        User user = (User) authenticate.getPrincipal();
-        String userName = user.getUsername();
-        String token = createSignedJWT(userName, auth);
+        List<String> authorities = findAuthoritiesByUserName(loginRequest.userName());
+        String userName = ((User) authenticate.getPrincipal())
+                .getUsername();
+        String token = createSignedJWT(userName, authorities);
         return new JwtResponse(token);
     }
 

@@ -18,7 +18,7 @@ public class AuthenticationController {
 
     @PostMapping("/auth")
     public ResponseEntity<JwtResponse> authenticateAndCreateToken(@RequestBody LoginRequestDto loginRequestDto) {
-        JwtResponse jwtResponse = jwtService.createAuthentication(loginRequestDto);
+        JwtResponse jwtResponse = jwtService.createAuthenticationToken(loginRequestDto);
         return ResponseEntity.ok().body(jwtResponse);
     }
 

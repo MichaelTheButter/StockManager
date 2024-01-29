@@ -27,18 +27,15 @@ import java.io.IOException;
 import java.util.List;
 
 @Service
-class BearerTokenFilter extends HttpFilter {
-    private final Logger logger = LoggerFactory.getLogger(BearerTokenFilter.class);
+public class BearerTokenFilter extends HttpFilter {
     private static final String AUTHORIZATION_HEADER = "Authorization";
     private static final String BEARER_PREFIX = "Bearer ";
-    private final SecurityContextHolderStrategy securityContextHolderStrategy;
     private final AuthenticationFailureHandler failureHandler;
     private final JwsProperties jwsProperties;
 
     public BearerTokenFilter(JwsProperties jwsProperties) {
         this.jwsProperties = jwsProperties;
         this.failureHandler = new SimpleUrlAuthenticationFailureHandler();
-        this.securityContextHolderStrategy = SecurityContextHolder.getContextHolderStrategy();
     }
 
     @Override
@@ -52,31 +49,34 @@ class BearerTokenFilter extends HttpFilter {
         }
         try {
             DecodedJWT decodedJWT = verifyToken(authorizationHeader);
-            String userName = decodedJWT.getSubject();
-            List<String> authorities = decodedJWT.getClaim("authorities").asList(String.class);
-
-        List<SimpleGrantedAuthority> grantedAuthorities = authorities.stream().map(SimpleGrantedAuthority::new).toList();
-        Authentication authentication =
-                new UsernamePasswordAuthenticationToken(userName, null, grantedAuthorities);
-        SecurityContextHolder.getContext().setAuthentication(authentication);
-        SecurityContext securityContext = securityContextHolderStrategy.getContext();
-        securityContext.setAuthentication(authentication);
-        chain.doFilter(request, response);
+            Authentication authentication = createAuthentication(decodedJWT);
+            SecurityContextHolder.getContext().setAuthentication(authentication);
+            chain.doFilter(request, response);
         } catch (JwtAuthenticationException e) {
             System.err.println(e.getMessage());
             failureHandler.onAuthenticationFailure(request, response, e);
         }
         }
 
-        private DecodedJWT verifyToken(String token) {
-        Algorithm algorithm = Algorithm.HMAC256(jwsProperties.sharedKey());
-        JWTVerifier verifier = JWT.require(algorithm)
-                .build();
-        try {
-            String compactJwt = token.substring(BEARER_PREFIX.length());
-            return verifier.verify(compactJwt);
-            } catch (IndexOutOfBoundsException | JWTVerificationException e) {
-                throw new JWTVerificationException("Token verification failure");
+        private Authentication createAuthentication(DecodedJWT decodedJWT) {
+            String userName = decodedJWT.getSubject();
+            List<String> authorities = decodedJWT.getClaim("authorities").asList(String.class);
+            List<SimpleGrantedAuthority> grantedAuthorities = authorities.stream()
+                    .map(SimpleGrantedAuthority::new)
+                    .toList();
+            return new UsernamePasswordAuthenticationToken(userName, null, grantedAuthorities);
         }
+
+        private DecodedJWT verifyToken(String token) {
+            Algorithm algorithm = Algorithm.HMAC256(jwsProperties.sharedKey());
+            JWTVerifier verifier = JWT.require(algorithm)
+                    .build();
+            try {
+                String compactJwt = token.substring(BEARER_PREFIX.length());
+                DecodedJWT decodedJWT = verifier.verify(compactJwt);
+                return decodedJWT;
+                } catch (IndexOutOfBoundsException | JWTVerificationException e) {
+                    throw new JWTVerificationException("Token verification failure");
+            }
         }
 }
