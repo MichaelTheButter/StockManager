@@ -1,6 +1,8 @@
 package com.stockmanager.core.user;
 
 import com.stockmanager.core.user.dto.UserCredentialsDto;
+import com.stockmanager.core.user.dto.UserDto;
+import com.stockmanager.core.user.userrole.UserRole;
 
 class UserCredentialsDtoMapper {
 
@@ -18,5 +20,23 @@ class UserCredentialsDtoMapper {
         user.setUserRole(credentialsDto.getRole());
         return user;
     }
+
+    static UserDto mapToResponse(User user){
+        return UserDto.builder()
+                .userName(user.getUserName())
+                .userRole(user.getUserRole().getDescription())
+                .password("***")
+                .build();
+    }
+
+    static User mapToCreate(UserDto requestDto) {
+        User user = new User();
+        user.setUserName(requestDto.getUserName());
+        UserRole role = UserRole.valueOf(requestDto.getUserRole());
+        user.setUserRole(role);
+        return user;
+    }
+
+
 
 }
