@@ -10,10 +10,21 @@
     <include file="003_create_table_document.xml" relativeToChangelogFile="true" />
     <include file="004_create_table_stock_product.xml" relativeToChangelogFile="true" />
     <include file="005_foreignKeyConstraint_stock_product.xml" relativeToChangelogFile="true" />
+    <include file="006_create_table_document_product.xml" relativeToChangelogFile="true" />
+    <include file="007_add_document_product_constraints.xml" relativeToChangelogFile="true" />
+    <include file="008_create_table_users.xml" relativeToChangelogFile="true" />
+
+    <!-- MAIN STOCK -->
+    <include file="../initialData/008_main_stock_prod.sql" relativeToChangelogFile="true" context="prod"/>
+    <!-- SAMPLE USERS -->
+    <include file="../initialData/006_users.sql" relativeToChangelogFile="true" context="prod"/>
+
 
     <!-- TEST DATA -->
     <include file="../testdata/001_products.sql" relativeToChangelogFile="true" context="dev"/>
     <include file="../testdata/002_stock.sql" relativeToChangelogFile="true" context="dev"/>
     <include file="../testdata/003_stock_product.sql" relativeToChangelogFile="true" context="dev"/>
+    <include file="../testdata/004_users_and_roles.sql" relativeToChangelogFile="true" context="dev"/>
+
 
 </databaseChangeLog>

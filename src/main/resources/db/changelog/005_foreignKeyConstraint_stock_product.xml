@@ -4,7 +4,7 @@
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
         https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.2.xsd">
-    <changeSet id="0001-5" author="mike">
+    <changeSet id="0005-1" author="mike">
         <addForeignKeyConstraint baseColumnNames="product_id" baseTableName="stock_product"
                                  constraintName="FK_STOCKPRODUCT_ON_PRODUCT" referencedColumnNames="id"
                                  referencedTableName="product"/>
@@ -12,5 +12,10 @@
                                  constraintName="FK_STOCKPRODUCT_ON_STOCK" referencedColumnNames="id"
                                  referencedTableName="stock"/>
 
+    </changeSet>
+    <changeSet id="0005-2" author="mike">
+        <addForeignKeyConstraint baseColumnNames="stock_id" baseTableName="document"
+                                 constraintName="FK_DOCUMENT_ON_STOCK" referencedColumnNames="id"
+                                 referencedTableName="stock"/>
     </changeSet>
 </databaseChangeLog>
