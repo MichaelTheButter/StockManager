@@ -23,7 +23,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest
 @AutoConfigureMockMvc
 @WithMockUser(roles = {"ADMIN"})
-@ExtendWith(SpringExtension.class)
 public class StockControllerTest {
 
     @Autowired

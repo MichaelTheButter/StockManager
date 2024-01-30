@@ -2,7 +2,7 @@ spring:
   datasource:
     url: jdbc:h2:mem:test
   liquibase:
-    contexts: dev
+    contexts: test
     change-log: classpath:db/changelog/master.xml
   jpa:
     hibernate:
