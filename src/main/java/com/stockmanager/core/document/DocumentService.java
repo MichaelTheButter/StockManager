@@ -7,6 +7,7 @@ import com.stockmanager.core.documentProduct.DocumentProductService;
 import com.stockmanager.core.stockProduct.StockProductDtoMapper;
 import com.stockmanager.core.stockProduct.StockProductService;
 import jakarta.transaction.Transactional;
+import lombok.Getter;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -14,6 +15,7 @@ import java.util.Optional;
 @Service
 public class DocumentService {
     private final DocumentRepository documentRepository;
+    @Getter
     private final DocumentMapper documentMapper;
     private final DocumentProductService documentProductService;
     private final StockProductService stockProductService;
