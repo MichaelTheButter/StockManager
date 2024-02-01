@@ -1,8 +1,8 @@
 package com.stockmanager.infrastructure.controllers;
 
 
-import com.stockmanager.core.stock.StockService;
-import com.stockmanager.core.stock.dto.StockDto;
+import com.stockmanager.domain.stock.StockService;
+import com.stockmanager.domain.stock.dto.StockDto;
 import org.springframework.stereotype.Controller;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.HttpStatus;

@@ -42,6 +42,7 @@ public class SecurityConfig {
                 .requestMatchers(mvc.pattern(HttpMethod.POST, "/api/stocks")).hasRole("ADMIN")
                 .requestMatchers(mvc.pattern(HttpMethod.POST, "/api/products")).hasAnyRole("USER","ADMIN")
                 .requestMatchers(mvc.pattern(HttpMethod.POST,"/api/documents")).hasAnyRole("USER", "ADMIN")
+                .requestMatchers(mvc.pattern(HttpMethod.GET, "/secured")).hasRole("ADMIN")
                 .anyRequest().permitAll()
         );
         http.sessionManagement(sessionConfig -> sessionConfig.sessionCreationPolicy(SessionCreationPolicy.STATELESS));

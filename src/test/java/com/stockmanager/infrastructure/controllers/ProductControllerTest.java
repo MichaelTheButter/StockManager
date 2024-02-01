@@ -1,13 +1,13 @@
 package com.stockmanager.infrastructure.controllers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.stockmanager.core.product.Product;
-import com.stockmanager.core.product.ProductRepository;
-import com.stockmanager.core.product.dto.ProductDto;
-import com.stockmanager.core.product.unit.Unit;
-import com.stockmanager.core.stockProduct.StockProduct;
-import com.stockmanager.core.stockProduct.StockProductId;
-import com.stockmanager.core.stockProduct.StockProductRepository;
+import com.stockmanager.domain.product.Product;
+import com.stockmanager.domain.product.ProductRepository;
+import com.stockmanager.domain.product.dto.ProductDto;
+import com.stockmanager.domain.product.unit.Unit;
+import com.stockmanager.domain.stockProduct.StockProduct;
+import com.stockmanager.domain.stockProduct.StockProductId;
+import com.stockmanager.domain.stockProduct.StockProductRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -16,8 +16,6 @@ import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
-import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
-import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import java.util.Optional;
 
@@ -81,7 +79,7 @@ class ProductControllerTest {
     public void should_get_product() throws Exception {
         //given
         Product product = new Product();
-        product.setName("testProduct");
+        product.setName("testProduct-2");
         product.setUnit(Unit.KILOGRAMS);
         Long id = productRepository.save(product).getId();
         String url = "/api/products/" + id;

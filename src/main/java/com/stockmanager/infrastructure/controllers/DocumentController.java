@@ -1,8 +1,8 @@
 package com.stockmanager.infrastructure.controllers;
 
-import com.stockmanager.core.document.DocumentService;
-import com.stockmanager.core.document.dto.DocumentDto;
-import com.stockmanager.core.document.dto.DocumentRequestDto;
+import com.stockmanager.domain.document.DocumentService;
+import com.stockmanager.domain.document.dto.DocumentDto;
+import com.stockmanager.domain.document.dto.DocumentRequestDto;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
