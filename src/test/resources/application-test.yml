@@ -1,0 +1,12 @@
+spring:
+  datasource:
+    url: jdbc:h2:mem:test
+  liquibase:
+    contexts: test
+    change-log: classpath:db/changelog/master.xml
+  jpa:
+    hibernate:
+      ddl-auto: validate
+jws:
+  sharedKey: wsc7e4lk-a23a-4vdb-brgc-33d4g0c58261
+  expirationSecond: 86400 #24*60*60

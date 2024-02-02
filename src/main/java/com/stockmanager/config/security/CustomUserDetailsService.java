@@ -1,7 +1,7 @@
 package com.stockmanager.config.security;
 
-import com.stockmanager.core.user.UserService;
-import com.stockmanager.core.user.dto.UserCredentialsDto;
+import com.stockmanager.domain.user.UserService;
+import com.stockmanager.domain.user.dto.UserCredentialsDto;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;

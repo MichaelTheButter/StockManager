@@ -1,12 +1,12 @@
 package com.stockmanager.infrastructure.controllers;
 
-import com.stockmanager.core.product.Product;
-import com.stockmanager.core.product.ProductDtoMapper;
-import com.stockmanager.core.product.ProductService;
-import com.stockmanager.core.product.dto.ProductDto;
-import com.stockmanager.core.stockProduct.StockProductService;
-import com.stockmanager.core.stockProduct.dto.StockProductDto;
-import com.stockmanager.core.stockProduct.dto.StockProductDtoResponse;
+import com.stockmanager.domain.product.Product;
+import com.stockmanager.domain.product.ProductDtoMapper;
+import com.stockmanager.domain.product.ProductService;
+import com.stockmanager.domain.product.dto.ProductDto;
+import com.stockmanager.domain.stockProduct.StockProductService;
+import com.stockmanager.domain.stockProduct.dto.StockProductDto;
+import com.stockmanager.domain.stockProduct.dto.StockProductDtoResponse;
 import lombok.Getter;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
