@@ -3,4 +3,4 @@ spring:
     show-sql: true
     defer-datasource-initialization: false
   profiles:
-    default: dev
+    default: prod
