@@ -5,14 +5,16 @@ import com.stockmanager.config.security.dto.JwtResponse;
 import com.stockmanager.config.security.dto.LoginRequestDto;
 import com.stockmanager.domain.user.UserService;
 import com.stockmanager.domain.user.dto.UserDto;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.*;
 
-@Controller
+
+
+@RestController
+@Validated
 public class AuthenticationController {
     private final JwtService jwtService;
     private final UserService userService;
@@ -23,7 +25,7 @@ public class AuthenticationController {
     }
 
     @PostMapping("/auth")
-    public ResponseEntity<JwtResponse> authenticateAndCreateToken(@RequestBody LoginRequestDto loginRequestDto) {
+    public ResponseEntity<JwtResponse> authenticateAndCreateToken(@Valid @RequestBody LoginRequestDto loginRequestDto) {
         JwtResponse jwtResponse = jwtService.createAuthenticationToken(loginRequestDto);
         return ResponseEntity.ok().body(jwtResponse);
     }
@@ -40,4 +42,5 @@ public class AuthenticationController {
     public ResponseEntity<String> secured() {
         return ResponseEntity.ok().body("secured");
     }
+
 }
