@@ -7,6 +7,7 @@ import com.stockmanager.domain.product.dto.ProductDto;
 import com.stockmanager.domain.stockProduct.StockProductService;
 import com.stockmanager.domain.stockProduct.dto.StockProductDto;
 import com.stockmanager.domain.stockProduct.dto.StockProductDtoResponse;
+import jakarta.validation.Valid;
 import lombok.Getter;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -34,7 +35,7 @@ public class ProductController {
 
     @Transactional
     @PostMapping
-    ResponseEntity<ProductDto> save(@RequestBody ProductDto product) {
+    ResponseEntity<ProductDto> save(@Valid @RequestBody ProductDto product) {
         ProductDto productDto = productService.saveProduct(product);
         initialProductAddToMainStock(ProductDtoMapper.map(productDto));
         return ResponseEntity.status(HttpStatus.CREATED)
