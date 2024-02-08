@@ -12,19 +12,20 @@ Authorisation is based on Spring security and JWT Bearer Tokens.
 |    Endpoint    | Method |  Request  |   Response   |            Function            | Authorization |
 |    --------    |-------- |--------  |--------   |            --------            |-------- |
 | /auth          | POST   | JSON BODY | Bearer Token | authenticate user              | -             |
+|/register | POST   | JSON BODY | -    | create new user               | -    |
 | /api/products  | POST   | JSON BODY | JSON BODY    | add new product                | user, admin   |
 | /api/products  | GET    | -         | JSON BODY    | get all products in main stock | -             |
 | /api/products/{id}  | GET    | -         | JSON BODY    | get product by id |        -     |
 | /api/products/{id}/stock  | GET    | -         | JSON BODY    | get all products in stock with given id | - |      
 | /api/stock     | POST   | JSON BODY | JSON BODY    | add new stock                  | admin         |
 | /api/documents | POST   | JSON BODY | JSON BODY    | add new document               | user,admin    |
-/api/documents/{id} | GET   | - | JSON BODY    | get document by id               | -    |
+|/api/documents/{id} | GET   | - | JSON BODY    | get document by id               | -    |
 ---------------------------------------------------------------------------------------------
 
 ## To use
 Clone this repo
 
-Run StockManagerApplication.java // it's still on developer stage, if you want to try it, run it on dev profile.
+run docker compose up
 
 first authorization:
 username: admin
