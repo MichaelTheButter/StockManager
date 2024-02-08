@@ -40,6 +40,15 @@ public class CustomExceptionHandler {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                 .body(new ErrorResponse(List.of(exception.getMessage())));
     }
+
+
+    @ExceptionHandler(UniqueConstraintException.class)
+    public ResponseEntity<ErrorResponse> uniqueConstrainViolationHandler(
+            UniqueConstraintException exception
+    ) {
+        return ResponseEntity.status(HttpStatus.CONFLICT)
+                .body(new ErrorResponse(List.of(exception.getMessage())));
+    }
     private List<String> getErrors(MethodArgumentNotValidException exception) {
         return exception.getBindingResult()
                 .getAllErrors()

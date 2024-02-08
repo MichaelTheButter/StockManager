@@ -8,4 +8,5 @@ import java.util.Optional;
 @Repository
 public interface StockRepository extends CrudRepository<Stock, Long>{
     Optional<Stock> findByName(String name);
+    boolean existsByName(String name);
 }

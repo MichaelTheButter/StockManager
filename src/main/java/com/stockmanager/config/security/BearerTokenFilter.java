@@ -49,7 +49,6 @@ public class BearerTokenFilter extends HttpFilter {
             SecurityContextHolder.getContext().setAuthentication(authentication);
             chain.doFilter(request, response);
         } catch (JwtAuthenticationException e) {
-            System.err.println(e.getMessage());
             failureHandler.onAuthenticationFailure(request, response, e);
         }
         }
@@ -72,7 +71,7 @@ public class BearerTokenFilter extends HttpFilter {
                 DecodedJWT decodedJWT = verifier.verify(compactJwt);
                 return decodedJWT;
                 } catch (IndexOutOfBoundsException | JWTVerificationException e) {
-                    throw new JWTVerificationException("Token verification failure");
+                    throw new JwtAuthenticationException("Token verification failure");
             }
         }
 }
