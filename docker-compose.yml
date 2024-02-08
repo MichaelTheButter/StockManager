@@ -1,14 +1,30 @@
 version: '3.8'
 
 services:
-  db:
-    container_name: mysql
+  mysql:
+    container_name: mysqldb
     image: mysql
-    restart: unless-stopped
+    restart: always
     environment:
-      MYSQL_DATABASE: 'stockman'
-      MYSQL_ROOT_PASSWORD: 'rootpass'
+      MYSQL_DATABASE: stockman
+      MYSQL_ROOT_PASSWORD: rootpass
     ports:
-      - '3307:3306'
+      - '3306:3306'
     volumes:
       - /stockman:/var/lib/mysql
+
+  stockmanager:
+    container_name: stockman
+    build: .
+    restart: always
+    depends_on:
+      - mysqldb
+    ports:
+      - '8080:8080'
+    environment:
+      SPRING_PROFILES_ACTIVE: prod
+      DB_HOST: mysql
+      DB_NAME: stockman
+      DB_PORT: 3306
+      DB_USER: root
+      DB_PASSWORD: rootpass

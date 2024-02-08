@@ -21,10 +21,10 @@
 
 
     <!-- TEST DATA -->
-    <include file="../testdata/001_products.sql" relativeToChangelogFile="true" context="dev"/>
-    <include file="../testdata/002_stock.sql" relativeToChangelogFile="true" context="dev"/>
-    <include file="../testdata/003_stock_product.sql" relativeToChangelogFile="true" context="dev"/>
-    <include file="../testdata/004_users_and_roles.sql" relativeToChangelogFile="true" context="dev"/>
+    <include file="../testdata/001_products.sql" relativeToChangelogFile="true" context="dev or test"/>
+    <include file="../testdata/002_stock.sql" relativeToChangelogFile="true" context="dev or test"/>
+    <include file="../testdata/003_stock_product.sql" relativeToChangelogFile="true" context="dev or test"/>
+    <include file="../testdata/004_users_and_roles.sql" relativeToChangelogFile="true" context="dev or test"/>
 
 
 </databaseChangeLog>

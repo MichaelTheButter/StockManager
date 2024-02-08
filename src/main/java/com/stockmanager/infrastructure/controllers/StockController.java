@@ -3,6 +3,7 @@ package com.stockmanager.infrastructure.controllers;
 
 import com.stockmanager.domain.stock.StockService;
 import com.stockmanager.domain.stock.dto.StockDto;
+import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.HttpStatus;
@@ -20,7 +21,7 @@ public class StockController {
     }
 
     @PostMapping
-    ResponseEntity<StockDto> saveStock(@RequestBody StockDto stock) {
+    ResponseEntity<StockDto> saveStock(@Valid @RequestBody StockDto stock) {
         StockDto stockDto = stockService.saveStock(stock);
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(stockDto);

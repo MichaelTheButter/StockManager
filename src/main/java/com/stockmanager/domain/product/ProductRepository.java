@@ -8,4 +8,6 @@ import java.util.Optional;
 @Repository
 public interface ProductRepository extends CrudRepository<Product, Long> {
     Optional<Product> findByName(String name);
+
+    boolean existsByName(String name);
 }

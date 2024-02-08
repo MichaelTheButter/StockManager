@@ -3,6 +3,7 @@ package com.stockmanager.infrastructure.controllers;
 import com.stockmanager.domain.document.DocumentService;
 import com.stockmanager.domain.document.dto.DocumentDto;
 import com.stockmanager.domain.document.dto.DocumentRequestDto;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -23,7 +24,7 @@ public class DocumentController {
 
     @Transactional
     @PostMapping
-    ResponseEntity<DocumentDto> save(@RequestBody DocumentRequestDto requestDto) {
+    ResponseEntity<DocumentDto> save(@Valid @RequestBody DocumentRequestDto requestDto) {
         DocumentDto documentDto = documentService.save(requestDto);
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(documentDto);

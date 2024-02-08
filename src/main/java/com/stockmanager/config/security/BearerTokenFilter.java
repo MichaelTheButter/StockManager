@@ -11,14 +11,10 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpFilter;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.context.SecurityContextHolderStrategy;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler;
 import org.springframework.stereotype.Service;
@@ -53,7 +49,6 @@ public class BearerTokenFilter extends HttpFilter {
             SecurityContextHolder.getContext().setAuthentication(authentication);
             chain.doFilter(request, response);
         } catch (JwtAuthenticationException e) {
-            System.err.println(e.getMessage());
             failureHandler.onAuthenticationFailure(request, response, e);
         }
         }
@@ -76,7 +71,7 @@ public class BearerTokenFilter extends HttpFilter {
                 DecodedJWT decodedJWT = verifier.verify(compactJwt);
                 return decodedJWT;
                 } catch (IndexOutOfBoundsException | JWTVerificationException e) {
-                    throw new JWTVerificationException("Token verification failure");
+                    throw new JwtAuthenticationException("Token verification failure");
             }
         }
 }
