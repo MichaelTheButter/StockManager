@@ -1,5 +1,9 @@
 ## Stock Manager
-Stock manager is an api that manages stock levels. Change products quantity by creating distinct documents, create various independent stocks, restrict acess by authorisation with three roles: admin, user, viewer. Each document type has distinct impact on product quantity (e.g. Goods recieved - increase quantity, Dispatch note - reduce quantity, Inventory - set quantity)
+Stock manager is an api for stock managment system. Core functionality:
+- create various independent stocks,
+- restrict acess by authorisation with three roles: admin, user, viewer.
+- change products quantity by creating distinct documents,
+- each document type has distinct impact on product quantity (e.g. Goods recieved - increase quantity, Dispatch note - reduce quantity, Inventory - set quantity)
   
 Authorisation is based on Spring security and JWT Bearer Tokens.
 
